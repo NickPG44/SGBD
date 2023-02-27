@@ -1,0 +1,56 @@
+CREATE DATABASE Date_companii_aeriene;
+CREATE TABLE Companii_aeriene (
+    Cod_companie int,
+    PRIMARY KEY (Cod_companie),
+    Denumire varchar(255),
+    Tara varchar(255)
+);
+CREATE TABLE Localitati (
+    Cod_localitate int,
+    PRIMARY KEY (Cod_localitate),
+    Nume_localitate varchar(255)
+);
+
+CREATE TABLE Companii_localitati (
+    Cod_companie int,
+    FOREIGN KEY (Cod_companie) REFERENCES Companii_aeriene(Cod_companie),
+    Cod_localitate int,
+    FOREIGN KEY (Cod_localitate) REFERENCES Localitati(Cod_localitate)
+);
+
+CREATE TABLE Zboruri (
+    Cod_zbor int,
+    PRIMARY KEY (Cod_zbor),
+    Cod_companie int,
+    FOREIGN KEY (Cod_companie) REFERENCES Companii_aeriene(Cod_companie),
+    Cod_localitate_plecare int,
+    FOREIGN KEY (Cod_localitate_plecare) REFERENCES Localitati(Cod_localitate),
+    Cod_localitate_sosire int,
+    FOREIGN KEY (Cod_localitate_sosire) REFERENCES Localitati(Cod_localitate)
+);
+
+CREATE TABLE Curse_aeriene (
+    Cod_cursa int,
+    PRIMARY KEY (Cod_cursa),
+    Cod_zbor int,
+    FOREIGN KEY (Cod_zbor) REFERENCES Zboruri(Cod_zbor),
+    Data_ Date,
+    Pret DECIMAL(2, 2)
+);
+
+CREATE TABLE Clienti (
+    Cod_client int,
+    PRIMARY KEY (Cod_client),
+    Nume varchar(255),
+    Prenume varchar(255),
+    Adresa CHAR(255)
+);
+CREATE TABLE Bilete (
+    Cod_bilet int,
+    PRIMARY KEY (Cod_bilet),
+    Cod_cursa int,
+    FOREIGN KEY (Cod_cursa) REFERENCES Curse_aeriene(Cod_cursa),
+   Cod_client int,
+    FOREIGN KEY (Cod_client) REFERENCES Clienti(Cod_client),
+    Data_achizite Date
+);
